@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const output = document.getElementById('output');
     const buttons = document.querySelectorAll('.btn');
     let currentInput = '';
+    let isOperatorLast = false;
 
     buttons.forEach(button => {
         button.addEventListener('click', function() {
@@ -10,41 +11,47 @@ document.addEventListener('DOMContentLoaded', function() {
             if (this.classList.contains('number')) {
                 currentInput += value;
                 output.value = currentInput;
+                isOperatorLast = false;
             } else if (this.classList.contains('operator')) {
-                currentInput += ` ${value} `;
-                output.value = currentInput;
+                if (!isOperatorLast && currentInput.length > 0) {
+                    currentInput += ` ${value} `;
+                    output.value = currentInput;
+                    isOperatorLast = true;
+                }
             } else if (this.classList.contains('function')) {
                 if (value === 'sqrt') {
-                    currentInput = `sqrt(${currentInput})`;
+                    currentInput = `Math.sqrt(${currentInput})`;
                 } else if (value === 'log') {
-                    currentInput = `log10(${currentInput})`;
+                    currentInput = `Math.log10(${currentInput})`;
                 } else if (value === 'ln') {
-                    currentInput = `ln(${currentInput})`;
+                    currentInput = `Math.log(${currentInput})`;
                 } else if (['sin', 'cos', 'tan'].includes(value)) {
-                    currentInput = `${value}(${currentInput})`;
+                    currentInput = `Math.${value}(${currentInput})`;
                 }
                 output.value = currentInput;
+                isOperatorLast = false;
             } else if (this.id === 'clear') {
                 currentInput = '';
                 output.value = '';
+                isOperatorLast = false;
             } else if (this.id === 'delete') {
-                currentInput = currentInput.slice(0, -1);
+                if (currentInput.slice(-1) === ' ') {
+                    currentInput = currentInput.slice(0, -3);
+                } else {
+                    currentInput = currentInput.slice(0, -1);
+                }
                 output.value = currentInput;
+                isOperatorLast = false;
             } else if (this.id === 'equals') {
                 try {
-                    currentInput = currentInput.replace('^', '**')
-                        .replace('sqrt', 'Math.sqrt')
-                        .replace('log10', 'Math.log10')
-                        .replace('ln', 'Math.log')
-                        .replace('sin', 'Math.sin')
-                        .replace('cos', 'Math.cos')
-                        .replace('tan', 'Math.tan');
+                    currentInput = currentInput.replace('^', '**');
                     output.value = eval(currentInput);
                     currentInput = output.value;
                 } catch (e) {
                     output.value = 'Error';
                     currentInput = '';
                 }
+                isOperatorLast = false;
             }
         });
     });

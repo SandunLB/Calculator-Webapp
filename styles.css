@@ -23,6 +23,8 @@ body {
     border: none;
     border-radius: 5px;
     margin-bottom: 10px;
+    background-color: #222;
+    color: #fff;
 }
 
 .buttons {
@@ -38,16 +40,15 @@ body {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
+    color: #fff;
 }
 
 .btn.number {
     background-color: #444;
-    color: #fff;
 }
 
 .btn.operator, .btn.function, .btn.control {
     background-color: #666;
-    color: #fff;
 }
 
 .btn:hover {
