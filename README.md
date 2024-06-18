@@ -10,5 +10,5 @@ A calculator app built with HTML, CSS, and JavaScript.
 - Equals button (=) to evaluate the expression
 
 
-**Still in Development**
+
 
