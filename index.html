@@ -3,44 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Calculator</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Scientific Calculator</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="calculator">
-        <div class="display">
-            <div id="history"></div>
-            <input type="text" id="output" disabled>
-        </div>
-        <div class="buttons">
-            <!-- Numbers -->
-            <button class="btn number" data-value="1">1</button>
-            <button class="btn number" data-value="2">2</button>
-            <button class="btn number" data-value="3">3</button>
-            <button class="btn number" data-value="4">4</button>
-            <button class="btn number" data-value="5">5</button>
-            <button class="btn number" data-value="6">6</button>
-            <button class="btn number" data-value="7">7</button>
-            <button class="btn number" data-value="8">8</button>
-            <button class="btn number" data-value="9">9</button>
-            <button class="btn number" data-value="0">0</button>
-            <!-- Operators -->
-            <button class="btn operator" data-value="+">+</button>
-            <button class="btn operator" data-value="-">-</button>
-            <button class="btn operator" data-value="*">*</button>
-            <button class="btn operator" data-value="/">/</button>
-            <button class="btn operator" data-value="^">^</button>
-            <!-- Functions -->
-            <button class="btn function" data-value="sqrt">√</button>
-            <button class="btn function" data-value="log">log</button>
-            <button class="btn function" data-value="ln">ln</button>
-            <button class="btn function" data-value="sin">sin</button>
-            <button class="btn function" data-value="cos">cos</button>
-            <button class="btn function" data-value="tan">tan</button>
-            <!-- Controls -->
-            <button class="btn control" id="clear">C</button>
-            <button class="btn control" id="delete">Del</button>
-            <button class="btn control" id="equals">=</button>
+        <input type="text" id="display" class="calculator-display" disabled>
+        <div class="calculator-buttons">
+            <!-- Number and basic operation buttons -->
+            <div class="button-row">
+                <button class="btn" onclick="appendNumber('7')">7</button>
+                <button class="btn" onclick="appendNumber('8')">8</button>
+                <button class="btn" onclick="appendNumber('9')">9</button>
+                <button class="btn operator" onclick="updateOperation('/')">÷</button>
+                <button class="btn clear" onclick="clearDisplay()">C</button>
+            </div>
+
+            <div class="button-row">
+                <button class="btn" onclick="appendNumber('4')">4</button>
+                <button class="btn" onclick="appendNumber('5')">5</button>
+                <button class="btn" onclick="appendNumber('6')">6</button>
+                <button class="btn operator" onclick="updateOperation('*')">x</button>
+                <button class="btn equal" onclick="calculate()">=</button>
+            </div>
+
+            <div class="button-row">
+                <button class="btn" onclick="appendNumber('1')">1</button>
+                <button class="btn" onclick="appendNumber('2')">2</button>
+                <button class="btn" onclick="appendNumber('3')">3</button>
+                <button class="btn operator" onclick="updateOperation('-')">-</button>
+                <button class="btn" onclick="appendNumber('0')">0</button>
+            </div>
+
+            <div class="button-row">
+                <button class="btn" onclick="appendNumber('.')">.</button>
+                <button class="btn sign-change" onclick="changeSign()">±</button>
+                <button class="btn operator" onclick="updateOperation('+')">+</button>
+            </div>
+
+            <!-- Scientific function buttons -->
+            <div class="button-row">
+                <button class="btn function" onclick="computeFunction('sin')">sin</button>
+                <button class="btn function" onclick="computeFunction('cos')">cos</button>
+                <button class="btn function" onclick="computeFunction('tan')">tan</button>
+                <button class="btn function" onclick="computeFunction('log')">log</button>
+                <button class="btn function" onclick="computeFunction('sqrt')">√</button>
+            </div>
+
+            <!-- Additional scientific functions -->
+            <div class="button-row">
+                <button class="btn function" onclick="computeFunction('exp')">exp</button>
+                <button class="btn function" onclick="computeFunction('pow')">x<sup>y</sup></button>
+                <button class="btn function" onclick="computeFunction('factorial')">n!</button>
+                <button class="btn function" onclick="computeFunction('pow10')">10<sup>x</sup></button>
+                <button class="btn function" onclick="computeFunction('ln')">ln</button>
+            </div>
+
+            <div class="button-row">
+                <button class="btn function" onclick="computeFunction('inverse')">1/x</button>
+                <button class="btn function" onclick="updateOperation('%')">%</button>
+                <button class="btn function" onclick="computeFunction('sinh')">sinh</button>
+                <button class="btn function" onclick="computeFunction('cosh')">cosh</button>
+                <button class="btn function" onclick="computeFunction('tanh')">tanh</button>
+            </div>
+
+            <!-- Additional buttons for advanced functions -->
+            <div class="button-row">
+                <button class="btn function" onclick="computeFunction('exp')">e<sup>x</sup></button>
+                <button class="btn function" onclick="computeFunction('logBase')">log<sub>b</sub>(x)</button>
+                <button class="btn function" onclick="computeFunction('antilog')">10<sup>x</sup> / e<sup>x</sup></button>
+                <button class="btn function" onclick="computeFunction('cubeRoot')">∛x</button>
+                <button class="btn function" onclick="computeFunction('nthRoot')">nthRoot</button>
+            </div>
+
+            <div class="button-row">
+                <button class="btn function" onclick="computeFunction('square')">x²</button>
+                <button class="btn function" onclick="computeFunction('cube')">x³</button>
+                <button class="btn function" onclick="computeFunction('perm')">nPr</button>
+                <button class="btn function" onclick="computeFunction('comb')">nCr</button>
+                <button class="btn function" onclick="computeFunction('mean')">Mean</button>
+            </div>
+
+            <div class="button-row">
+                <button class="btn function" onclick="computeFunction('stdDev')">StdDev</button>
+                <button class="btn function" onclick="computeFunction('variance')">Variance</button>
+                <button class="btn function" onclick="computeFunction('sec')">sec</button>
+                <button class="btn function" onclick="computeFunction('csc')">csc</button>
+                <button class="btn function" onclick="computeFunction('cot')">cot</button>
+            </div>
+
+            <!-- Radians/Degrees toggle -->
+            <div class="button-row">
+                <button class="btn toggle" id="radians-degrees-toggle" onclick="toggleRadiansDegrees()">Radians</button>
+            </div>
+
+            <!-- Financial calculations -->
+            <div class="button-row">
+                <button class="btn function" onclick="computeFunction('pv')">PV</button>
+                <button class="btn function" onclick="computeFunction('fv')">FV</button>
+                <button class="btn function" onclick="computeFunction('npv')">NPV</button>
+                <button class="btn function" onclick="computeFunction('irr')">IRR</button>
+                <button class="btn function" onclick="computeFunction('loanAmortization')">Amort</button>
+            </div>
+
+            <!-- Unit conversions -->
+            <div class="button-row">
+                <button class="btn function" onclick="computeFunction('unitConversion')">Unit Conv</button>
+                <button class="btn function" onclick="computeFunction('baseConversion')">Base Conv</button>
+                <button class="btn function" onclick="computeFunction('binaryToDecimal')">Bin to Dec</button>
+                <button class="btn function" onclick="computeFunction('decimalToBinary')">Dec to Bin</button>
+                <button class="btn function" onclick="computeFunction('physicalConstants')">Constants</button>
+            </div>
         </div>
     </div>
     <script src="script.js"></script>
