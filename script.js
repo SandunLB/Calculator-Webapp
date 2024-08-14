@@ -1,6 +1,11 @@
 const display = document.getElementById("display");
 let operation = '';
 let isRadians = true;
+let memory = 0;
+let currentInput = '';
+let cursorPosition = 0;
+
+
 
 // Append number or decimal to the display
 function appendNumber(number) {
@@ -23,9 +28,43 @@ function calculate() {
     }
 }
 
-// Clear the display
+function moveCursorLeft() {
+    const display = document.getElementById('display');
+    cursorPosition = Math.max(0, cursorPosition - 1);
+    updateDisplayCursor(display);
+}
+
+function moveCursorRight() {
+    const display = document.getElementById('display');
+    cursorPosition = Math.min(display.value.length, cursorPosition + 1);
+    updateDisplayCursor(display);
+}
+
+function updateDisplayCursor(display) {
+    display.setSelectionRange(cursorPosition, cursorPosition);
+    display.focus(); // Keep focus on the display after moving the cursor
+}
+
+function appendNumber(number) {
+    const display = document.getElementById('display');
+    const beforeCursor = display.value.slice(0, cursorPosition);
+    const afterCursor = display.value.slice(cursorPosition);
+    
+    display.value = beforeCursor + number + afterCursor;
+    cursorPosition++;
+    updateDisplayCursor(display);
+}
+
+// Update cursor position after operations or clearing display
+function updateOperation(operator) {
+    const display = document.getElementById('display');
+    display.value += operator;
+    cursorPosition = display.value.length;
+}
+
 function clearDisplay() {
-    display.value = '';
+    document.getElementById('display').value = '';
+    cursorPosition = 0;
 }
 
 // Change the sign of the current number
@@ -320,4 +359,24 @@ function baseConversion() {
     } else {
         return "Conversion not supported.";
     }
+}
+function clearEntry() {
+    currentInput = '';
+    document.getElementById('display').value = currentInput;
+}
+
+function clearMemory() {
+    memory = 0;
+}
+
+function recallMemory() {
+    document.getElementById('display').value = memory;
+}
+
+function addToMemory() {
+    memory += parseFloat(document.getElementById('display').value);
+}
+
+function subtractFromMemory() {
+    memory -= parseFloat(document.getElementById('display').value);
 }

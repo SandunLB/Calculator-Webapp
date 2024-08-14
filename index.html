@@ -9,8 +9,16 @@
 <body>
     <div class="calculator">
         <input type="text" id="display" class="calculator-display" disabled>
+        
         <div class="calculator-buttons">
             <!-- Number and basic operation buttons -->
+            <div class="button-row">
+                <button class="btn memory" onclick="clearEntry()">CE</button>
+                <button class="btn memory" onclick="clearMemory()">MC</button>
+                <button class="btn memory" onclick="recallMemory()">MR</button>
+                <button class="btn memory" onclick="addToMemory()">M+</button>
+                <button class="btn memory" onclick="subtractFromMemory()">M-</button>
+            </div>
             <div class="button-row">
                 <button class="btn" onclick="appendNumber('7')">7</button>
                 <button class="btn" onclick="appendNumber('8')">8</button>
@@ -32,13 +40,19 @@
                 <button class="btn" onclick="appendNumber('2')">2</button>
                 <button class="btn" onclick="appendNumber('3')">3</button>
                 <button class="btn operator" onclick="updateOperation('-')">-</button>
-                <button class="btn" onclick="appendNumber('0')">0</button>
+                <button class="btn sign-change" onclick="changeSign()">±</button>
+               
+               
+            
+               
             </div>
 
             <div class="button-row">
                 <button class="btn" onclick="appendNumber('.')">.</button>
-                <button class="btn sign-change" onclick="changeSign()">±</button>
+                <button class="btn" onclick="appendNumber('0')">0</button>
+                <button class="btn" onclick="moveCursorLeft()">←</button>
                 <button class="btn operator" onclick="updateOperation('+')">+</button>
+                <button class="btn" onclick="moveCursorRight()">→</button>
             </div>
 
             <!-- Scientific function buttons -->
